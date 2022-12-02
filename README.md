@@ -4,8 +4,8 @@
 Let's hope this project continues to grow.
 
 ### Features:
-  [] Write basic SVG images
-  [] provide with SVG to PNG conversions
+  - [ ] Write basic SVG images
+  - [ ] provide with SVG to PNG conversions
   
 ### Project Requirements:
 Check the `requirements.txt` for any requirements related to the project
