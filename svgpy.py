@@ -143,14 +143,14 @@ class SVG:
 
         Parameters
         ----------
-        points : [(x1,y1),(x2,y2),(x3,y3),(x4,y4),...]
-            list of tuples of points (x,y)
+        points : [(int,int),(int,int),(int,int),(int,int),...]
+            List of tuples of co-ordinates (x,y)
         stroke : rgb(red,green,blue)
             Sets the line color
         fill : rgb(red,green,blue)
             Sets the fill color for the polyline
         stroke_width : int
-            Sets the width of the line
+            Sets the width of the line i.e. pen-size
         """
 
         points_string = ""
@@ -162,8 +162,28 @@ class SVG:
                            f'"{stroke_width}" fill="{fill}" />\n'
 
     # function to draw a polygon
-    def polygon(self):
-        pass
+    def polygon(self, points, stroke = rgb(0,0,0), fill = 'transparent',
+                stroke_width = 1):
+        """This draws a closed shape with atleast 3 sides
+        
+        Parameters
+        ----------
+        points : [(int,int),(int,int),(int,int),...]
+            List of tuples of co-ordinates (x,y)
+        stroke : rgb(red,green,blue)
+            Sets the border color for the shape
+        fill : rgb(red,green,blue)
+            Sets the color to be filled within the shape
+        stroke_width : int
+            Sets the width of the border i.e. pen-size
+        """
+        
+        points_string = ""
+        for i in points:
+            points_string += f' {i[0]}, {i[1]}'
+        self.svg_string += f'<polygon points="{points_string}"'\
+                           f' stroke="{stroke}" fill="{fill}"'\
+                           f' stroke-width="{stroke_width}" />\n'
 
     # functon to draw a path
     def path(self):
@@ -171,18 +191,21 @@ class SVG:
 
     # function to finally write the svg file
     def write(self,save_as='test.svg'):
-        self.svg_string += '</svg>'
+        self.svg_string += '</svg>\n'
         with open(save_as,'w') as file:
             file.write(self.svg_string)
     
 
 # test code
 obj = SVG(400,500)
+
 obj.point((50,50))
 obj.rect((10,30),(100,200), fill="red", stroke_width = 10,stroke = rgb(28,29,150))
 obj.circle(center = (40,50), fill = rgb(123,224,200),radius = 150,stroke_width=1)
 obj.ellipse(center =(50,60), radii = (40,60), stroke_width = 8, fill = 'crimson')
 obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
 obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
+
+obj.polygon([(20,30),(150,320),(320,150),(40,50),(10,50)], fill = "crimson")
 obj.write()
 
