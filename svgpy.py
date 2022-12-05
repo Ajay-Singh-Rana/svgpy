@@ -37,11 +37,11 @@ class SVG:
         """
 
         self.svg_string += f'<rect x="{point[0]}" y="{point[1]}" width = "1"'\
-                           f' height="1" stroke="{fill}" />\n'
+                           f' height="1" stroke-width="1" stroke="{fill}" />\n'
   
     # function to draw a rectangle
     def rect(self, start, size, rx = 0, ry = 0, stroke = rgb(0, 0, 0), 
-             fill = "transparent", stroke_width = 5):
+             fill = "transparent", stroke_width = 1):
         """Draws a rectangle in the SVG image
 
         Parameters
@@ -61,7 +61,7 @@ class SVG:
         fill : rgb(red,green,blue)
             Sets the color to be filled inside the rectangle 
         stroke_width : int
-            The width of the stroke i.e. border
+            The width of the stroke i.e. border or pen-size
         """
 
         self.svg_string += f'<rect x="{start[0]}" y="{start[1]}"'\
@@ -71,7 +71,7 @@ class SVG:
     
     # function to draw a circle
     def circle(self, center, radius, stroke = rgb(0,0,0), 
-               fill = "transparent", stroke_width = 5):
+               fill = "transparent", stroke_width = 1):
         """Draws a circle in the SVG image
 
         Parameters
@@ -85,7 +85,7 @@ class SVG:
         fill : rgb(red,green,blue)
             Sets the color to be filled inside the circle
         stroke_width : int
-            The width of the stroke i.e. border
+            The width of the stroke i.e. border or pen-size
         """
 
         self.svg_string += f'<circle cx="{center[0]}" cy="{center[1]}"'\
@@ -94,52 +94,72 @@ class SVG:
 
     # function to draw an ellipse
     def ellipse(self, center, radii, stroke = rgb(0,0,0),
-                fill = "transparent", stroke_width = 5):
-        """This function will be used to draw an ellipse
-            center : (int,int)
-                The x,y co-ordinates for the center of the ellipse
-            radii : (int,int)
-                The radiuses of the ellipse along x-axis,y-axis
-            stroke : rgb(red,green,blue)
-                Sets the border color for the ellipse
-            fill : rgb(red,green,blue)
-                Sets the color to be filled inside the ellipse
-            stroke_width : int
-                The width of the stroke i.e. border
+                fill = "transparent", stroke_width = 1):
+        """This function draws an ellipse in the SVG image
+
+        Parameters
+        ----------
+        center : (int,int)
+            The x,y co-ordinates for the center of the ellipse
+        radii : (int,int)
+            The radiuses of the ellipse along x-axis,y-axis
+        stroke : rgb(red,green,blue)
+            Sets the border color for the ellipse
+        fill : rgb(red,green,blue)
+            Sets the color to be filled inside the ellipse
+        stroke_width : int
+            The width of the stroke i.e. border or pen-size
         """
 
-        self.svg_string += f'<ellipse cx="{center[0]}" cy="c{enter[1]}"'\
+        self.svg_string += f'<ellipse cx="{center[0]}" cy="{center[1]}"'\
                            f' rx="{radii[0]}" ry="{radii[1]}"'\
                            f' stroke="{stroke}"'\
                            f' fill="{fill}" stroke-width="{stroke_width}" /> \n'
 
     # function to draw a line
-    def line(self, x1 = 0, y1 = 0, x2 = None, y2 = None):
+    def line(self, start, end, stroke = rgb(0,0,0), stroke_width = 1):
+        """This function draws a line in the SVG image
+
+        Parameters
+        ----------
+        start : (int,int)
+            The co-ordinates x,y for the initial point
+        end : (int,int)
+            The co-ordinates x,y for the end point
+        stroke : rgb(red,green,blue)
+            Sets the line color
+        stroke_width : int
+            The width of the line or pen-size
         """
-        x1: int
-        y1: int
-        x2: int
-        y2: int
-        returns: None
-        """
-        if(x2 == None):
-            x2 = self.width
-        if(y2 == None):
-            y2 = self.height
         
-        self.svg_string += f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" />\n'
+        self.svg_string += f'<line x1="{start[0]}" y1="{start[1]}"'\
+                           f' x2="{end[0]}" y2="{end[1]}" stroke="{stroke}"'\
+                           f' stroke-width="{stroke_width}" />\n'
 
     # function to draw a polyling
-    def polyline(self, points = [(0,0),(10,10),(20,20)]):
+    def polyline(self, points, stroke = rgb(0,0,0), fill = 'transparent',
+                 stroke_width = 1):
+        """This function draws a line connecting several points/line segments
+
+        Parameters
+        ----------
+        points : [(x1,y1),(x2,y2),(x3,y3),(x4,y4),...]
+            list of tuples of points (x,y)
+        stroke : rgb(red,green,blue)
+            Sets the line color
+        fill : rgb(red,green,blue)
+            Sets the fill color for the polyline
+        stroke_width : int
+            Sets the width of the line
         """
-        points: list of tuples of points (x,y)
-        returns: None
-        """
+
         points_string = ""
         for i in points:
             points_string += f" {i[0]}, {i[1]}"
         points_string = points_string.strip()
-        self.svg_string += f'<polyline points="{points_string}"/>\n'
+        self.svg_string += f'<polyline points="{points_string}"'\
+                           f' stroke="{stroke}" stroke-width='\
+                           f'"{stroke_width}" fill="{fill}" />\n'
 
     # function to draw a polygon
     def polygon(self):
@@ -156,10 +176,13 @@ class SVG:
             file.write(self.svg_string)
     
 
+# test code
 obj = SVG(400,500)
 obj.point((50,50))
-# obj.rect(10,30,200, fill="red", stroke_width = 10,stroke = rgb(28,29,150))
-# obj.polyline([(10,20),(20,30),(30,30),(40,50)])
-# obj.circle(cx=4,cy=5,fill=rgb(123,224,200),r=15,stroke_width=10)
+obj.rect((10,30),(100,200), fill="red", stroke_width = 10,stroke = rgb(28,29,150))
+obj.circle(center = (40,50), fill = rgb(123,224,200),radius = 150,stroke_width=1)
+obj.ellipse(center =(50,60), radii = (40,60), stroke_width = 8, fill = 'crimson')
+obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
+obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
 obj.write()
 
