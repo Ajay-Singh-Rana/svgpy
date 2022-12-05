@@ -1,8 +1,23 @@
 # h3avren
 
+def rgb(red,green,blue):
+    return f"rgb({red},{green},{blue})"
+
+# class for handling SVG stuff
 class SVG:
-    """This is the class which is used to write svg
-    files. It provides us with functions to write svg's"""
+    """
+    This class is used to write svg files.
+    It provides us with functions to write svg's
+    
+    Attributes
+    ----------
+    width : int 
+        The width of the SVG image
+    height : int
+        The height of the SVG image
+
+    """
+
     def __init__(self, width = 300, height = 150):
         self.width = width
         self.height = height
@@ -10,16 +25,51 @@ class SVG:
                            '" xmlns="http://www.w3.org/2000/svg">\n'
     
     # function to draw a rectangle
-    def rect(self, x = 0, y = 0, width = 200, height = 100, rx = 0, ry = 0):
+    def rect(self, x = 0, y = 0, width = 200, height = 100, rx = 0, ry = 0, 
+             stroke = rgb(0,0,0), fill = "transparent", stroke_width = 5):
+        """Draws a rectangle in the SVG image
+
+        Parameters
+        ----------
+        x : int
+            The x co-ordinate to start drawing from
+        y : int 
+            The y co-ordinate to start drawing from
+        width : int
+            The width of the rectangle
+        height : int
+            The hight of the rectangle
+        rx : int
+            The x radius of the corners of the rectangle
+        ry : int
+            The y radius of the corners of the rectangle
+        stroke : rgb(red,green,blue)
+            Sets the border color for the rectangle
+        fill : rgb(red,green,blue)
+            Sets the color to be filled inside therectangle 
+        stroke_width : int
+            The width of the stroke i.e. border
+        """
+
         self.svg_string += f'<rect x="{x}" y="{y}" width="{width}"'\
-                           f' height="{height}" rx="{rx}" ry="{ry}" />\n'
+                           f' height="{height}" rx="{rx}" ry="{ry}"'\
+                           f' stroke="{stroke}" fill="{fill}"'\
+                           f' stroke-width="{stroke_width}" />\n'
     
     # function to draw a circle
     def circle(self, cx = 50, cy = 50, r = 20):
-        """cx: int
-           cy: int
-           r: int
-           returns : None"""
+        """Draws a circle in the SVG image
+
+        Parameters
+        ----------
+        cx: int
+            The x co-ordinate for the center of the circle
+        cy: int
+            The y co-ordinate for the center of the circle
+        r: int
+            The radius of the circle
+        """
+
         self.svg_string += f'<circle cx="{cx}" cy="{cy}" r="{r}" />\n'
 
     # function to draw an ellipse
@@ -77,7 +127,7 @@ class SVG:
     
 
 obj = SVG(400,500)
-obj.rect(10,30,200)
+obj.rect(10,30,200, fill="red", stroke_width = 10,stroke = rgb(28,29,150))
 obj.polyline([(10,20),(20,30),(30,30),(40,50)])
 obj.write()
 
