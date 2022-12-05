@@ -95,7 +95,7 @@ class SVG:
     # function to draw an ellipse
     def ellipse(self, center, radii, stroke = rgb(0,0,0),
                 fill = "transparent", stroke_width = 1):
-        """This function draws an ellipse in the SVG image
+        """Draws an ellipse in the SVG image
 
         Parameters
         ----------
@@ -118,7 +118,7 @@ class SVG:
 
     # function to draw a line
     def line(self, start, end, stroke = rgb(0,0,0), stroke_width = 1):
-        """This function draws a line in the SVG image
+        """Draws a line in the SVG image
 
         Parameters
         ----------
@@ -139,7 +139,7 @@ class SVG:
     # function to draw a polyling
     def polyline(self, points, stroke = rgb(0,0,0), fill = 'transparent',
                  stroke_width = 1):
-        """This function draws a line connecting several points/line segments
+        """Draws a line connecting several points/line segments
 
         Parameters
         ----------
@@ -164,7 +164,7 @@ class SVG:
     # function to draw a polygon
     def polygon(self, points, stroke = rgb(0,0,0), fill = 'transparent',
                 stroke_width = 1):
-        """This draws a closed shape with atleast 3 sides
+        """Draws a closed shape with atleast 3 sides
         
         Parameters
         ----------
@@ -186,7 +186,31 @@ class SVG:
                            f' stroke-width="{stroke_width}" />\n'
 
     # functon to draw a path
-    def path(self):
+    def path(self, d):
+        """Draws a path formed with complex shapes
+        
+        Parameters
+        ----------
+        d : str
+            This describes a path to be drawn it can include
+            commands like:
+                - L (line to)
+                - M (move to)
+                - H (horizontal line to)
+                - V (vertical line to)
+                - C (curve to)
+                - S (smooth curve to)
+                - Q (quadratic Bezier Curve)
+                - T (smooth quadratic curve to)
+                - A (elleptical arc)
+                - Z (close path)
+        stroke : rgb(red,green,blue)
+            Sets the border color for the path drawn
+        fill : rgb(red,green,blue)
+            Sets the color to be filled in the path
+        stroke_width : int
+            Sets the width of the border
+        """
         pass
 
     # function to finally write the svg file
