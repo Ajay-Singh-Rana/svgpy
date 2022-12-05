@@ -25,20 +25,18 @@ class SVG:
                            '" xmlns="http://www.w3.org/2000/svg">\n'
     
     # function to draw a rectangle
-    def rect(self, x = 0, y = 0, width = 200, height = 100, rx = 0, ry = 0, 
-             stroke = rgb(0,0,0), fill = "transparent", stroke_width = 5):
+    def rect(self, start, size, rx = 0, ry = 0, stroke = rgb(0, 0, 0), 
+             fill = "transparent", stroke_width = 5):
         """Draws a rectangle in the SVG image
 
         Parameters
         ----------
-        x : int
-            The x co-ordinate to start drawing from
-        y : int 
-            The y co-ordinate to start drawing from
-        width : int
-            The width of the rectangle
-        height : int
-            The hight of the rectangle
+        start : (int, int)
+            The x,y co-ordinates of the start/initial point
+        size : (int, int)
+            The width, height of the rectangle
+            could also be considered as x2-x1,y2-y1
+            i.e. difference of start and end points of rectangle
         rx : int
             The x radius of the corners of the rectangle
         ry : int
@@ -51,26 +49,33 @@ class SVG:
             The width of the stroke i.e. border
         """
 
-        self.svg_string += f'<rect x="{x}" y="{y}" width="{width}"'\
-                           f' height="{height}" rx="{rx}" ry="{ry}"'\
-                           f' stroke="{stroke}" fill="{fill}"'\
-                           f' stroke-width="{stroke_width}" />\n'
+        self.svg_string += f'<rect x="{start[0]}" y="{start[1]}"'\
+                           f' width="{size[0]}" height = "{size[1]}"'\
+                           f' rx="{rx}" ry="{ry}" stroke="{stroke}"' \
+                           f' fill="{fill}" stroke-width="{stroke_width}" />\n'
     
     # function to draw a circle
-    def circle(self, cx = 50, cy = 50, r = 20):
+    def circle(self, center, radius, stroke = rgb(0,0,0), 
+               fill = "transparent", stroke_width = 5):
         """Draws a circle in the SVG image
 
         Parameters
         ----------
-        cx: int
-            The x co-ordinate for the center of the circle
-        cy: int
-            The y co-ordinate for the center of the circle
-        r: int
+        center : (int, int)
+            The x,y co-ordinates for the center of the circle
+        radius : int
             The radius of the circle
+        stroke : rgb(red,green,blue)
+            Sets the border color for the rectangle
+        fill : rgb(red,green,blue)
+            Sets the color to be filled inside therectangle 
+        stroke_width : int
+            The width of the stroke i.e. border
         """
 
-        self.svg_string += f'<circle cx="{cx}" cy="{cy}" r="{r}" />\n'
+        self.svg_string += f'<circle cx="{center[0]}" cy="{center[1]}"'\
+                           f' r="{radius}" stroke="{stroke}"'\
+                           f' fill="{fill}" stroke-width="{stroke_width}" />\n'
 
     # function to draw an ellipse
     def ellipse(self, cx = 50, cy = 50, rx = 30, ry = 10):
@@ -129,5 +134,6 @@ class SVG:
 obj = SVG(400,500)
 obj.rect(10,30,200, fill="red", stroke_width = 10,stroke = rgb(28,29,150))
 obj.polyline([(10,20),(20,30),(30,30),(40,50)])
+obj.circle(cx=4,cy=5,fill=rgb(123,224,200),r=15,stroke_width=10)
 obj.write()
 
