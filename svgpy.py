@@ -44,7 +44,7 @@ class SVG:
         stroke : rgb(red,green,blue)
             Sets the border color for the rectangle
         fill : rgb(red,green,blue)
-            Sets the color to be filled inside therectangle 
+            Sets the color to be filled inside the rectangle 
         stroke_width : int
             The width of the stroke i.e. border
         """
@@ -66,9 +66,9 @@ class SVG:
         radius : int
             The radius of the circle
         stroke : rgb(red,green,blue)
-            Sets the border color for the rectangle
+            Sets the border color for the circle
         fill : rgb(red,green,blue)
-            Sets the color to be filled inside therectangle 
+            Sets the color to be filled inside the circle
         stroke_width : int
             The width of the stroke i.e. border
         """
@@ -78,15 +78,25 @@ class SVG:
                            f' fill="{fill}" stroke-width="{stroke_width}" />\n'
 
     # function to draw an ellipse
-    def ellipse(self, cx = 50, cy = 50, rx = 30, ry = 10):
+    def ellipse(self, center, radii, stroke = rgb(0,0,0),
+                fill = "transparent", stroke_width = 5):
         """This function will be used to draw an ellipse
-            cx: int
-            cy: int
-            rx: int
-            ry: int
-            returns: None
+            center : (int,int)
+                The x,y co-ordinates for the center of the ellipse
+            radii : (int,int)
+                The radiuses of the ellipse along x-axis,y-axis
+            stroke : rgb(red,green,blue)
+                Sets the border color for the ellipse
+            fill : rgb(red,green,blue)
+                Sets the color to be filled inside the ellipse
+            stroke_width : int
+                The width of the stroke i.e. border
         """
-        self.svg_string += f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" />'
+
+        self.svg_string += f'<ellipse cx="{center[0]}" cy="c{enter[1]}"'\
+                           f' rx="{radii[0]}" ry="{radii[1]}"'\
+                           f' stroke="{stroke}"'\
+                           f' fill="{fill}" stroke-width="{stroke_width}" /> \n'
 
     # function to draw a line
     def line(self, x1 = 0, y1 = 0, x2 = None, y2 = None):
