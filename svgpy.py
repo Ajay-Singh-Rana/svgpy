@@ -24,6 +24,21 @@ class SVG:
         self.svg_string = f'<svg width="{self.width}" height="{self.height}'\
                            '" xmlns="http://www.w3.org/2000/svg">\n'
     
+    # function to draw a point
+    def point(self, point, fill = rgb(0,0,0)):
+        """Draws a point in the SVG image
+        
+        Parameters
+        ----------
+        point : (int,int)
+            co-ordinates of the point
+        fill : rgb(red,green,blue)
+            fill color of the point
+        """
+
+        self.svg_string += f'<rect x="{point[0]}" y="{point[1]}" width = "1"'\
+                           f' height="1" stroke="{fill}" />\n'
+  
     # function to draw a rectangle
     def rect(self, start, size, rx = 0, ry = 0, stroke = rgb(0, 0, 0), 
              fill = "transparent", stroke_width = 5):
@@ -142,8 +157,9 @@ class SVG:
     
 
 obj = SVG(400,500)
-obj.rect(10,30,200, fill="red", stroke_width = 10,stroke = rgb(28,29,150))
-obj.polyline([(10,20),(20,30),(30,30),(40,50)])
-obj.circle(cx=4,cy=5,fill=rgb(123,224,200),r=15,stroke_width=10)
+obj.point((50,50))
+# obj.rect(10,30,200, fill="red", stroke_width = 10,stroke = rgb(28,29,150))
+# obj.polyline([(10,20),(20,30),(30,30),(40,50)])
+# obj.circle(cx=4,cy=5,fill=rgb(123,224,200),r=15,stroke_width=10)
 obj.write()
 
