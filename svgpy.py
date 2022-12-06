@@ -218,7 +218,22 @@ class SVG:
         self.svg_string += '</svg>\n'
         with open(save_as,'w') as file:
             file.write(self.svg_string)
-    
+
+    # function to move the cursor to a point without drawing anything
+    def move_to(self,x,y):
+        """This function moves the pen to the given point without
+           drawing anything in the SVG.
+
+        Parameters
+        ----------
+        x : int
+            The x co-ordinate to move to
+        y :  int
+            The y co-ordinate to move to
+        """
+
+        self.svg_string += f'<path d="M {x} {y}" />\n'
+
 
 # test code
 obj = SVG(400,500)
