@@ -6,7 +6,19 @@ Let's hope this project continues to grow.
 ### Features:
   - [ ] Write basic SVG images
   - [ ] provide with SVG to PNG conversions
-  
+
+### SVG Features:
+  - [x] Pixel (a recctangle spanning a pixel)
+  - [x] Rectangle
+  - [x] Circle
+  - [x] Ellipse
+  - [x] Line
+  - [x] Polyline
+  - [x] Polygon
+  - [x] Path
+  - [ ] Text
+  - [ ] Filters
+  - [ ] Stroke
 ### Project Requirements:
 Check the `requirements.txt` for any requirements related to the project
 
