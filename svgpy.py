@@ -32,7 +32,8 @@ class SVG:
         ----------
         point : (int,int)
             co-ordinates of the point
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+
             fill color of the point
         """
 
@@ -56,9 +57,9 @@ class SVG:
             The x radius of the corners of the rectangle
         ry : int
             The y radius of the corners of the rectangle
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the border color for the rectangle
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the color to be filled inside the rectangle 
         stroke_width : int
             The width of the stroke i.e. border or pen-size
@@ -80,9 +81,9 @@ class SVG:
             The x,y co-ordinates for the center of the circle
         radius : int
             The radius of the circle
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the border color for the circle
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the color to be filled inside the circle
         stroke_width : int
             The width of the stroke i.e. border or pen-size
@@ -103,9 +104,9 @@ class SVG:
             The x,y co-ordinates for the center of the ellipse
         radii : (int,int)
             The radiuses of the ellipse along x-axis,y-axis
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the border color for the ellipse
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the color to be filled inside the ellipse
         stroke_width : int
             The width of the stroke i.e. border or pen-size
@@ -126,7 +127,7 @@ class SVG:
             The co-ordinates x,y for the initial point
         end : (int,int)
             The co-ordinates x,y for the end point
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the line color
         stroke_width : int
             The width of the line or pen-size
@@ -145,9 +146,9 @@ class SVG:
         ----------
         points : [(int,int),(int,int),(int,int),(int,int),...]
             List of tuples of co-ordinates (x,y)
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the line color
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the fill color for the polyline
         stroke_width : int
             Sets the width of the line i.e. pen-size
@@ -170,9 +171,9 @@ class SVG:
         ----------
         points : [(int,int),(int,int),(int,int),...]
             List of tuples of co-ordinates (x,y)
-        stroke : rgb(red,green,blue)
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the border color for the shape
-        fill : rgb(red,green,blue)
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the color to be filled within the shape
         stroke_width : int
             Sets the width of the border i.e. pen-size
@@ -204,10 +205,10 @@ class SVG:
                 - T (smooth quadratic curve to)
                 - A (elleptical arc)
                 - Z (close path)
-        stroke : rgb(red,green,blue)
-            Sets the border color for the path drawn
-        fill : rgb(red,green,blue)
-            Sets the color to be filled in the path
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color name or code for the border
+        fill : rbg(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color to be filled in the shape
         stroke_width : int
             Sets the width of the border
         """
@@ -215,26 +216,69 @@ class SVG:
 
     # function to finally write the svg file
     def write(self,save_as='test.svg'):
+        """This function writes the final SVG file
+
+        Parameters
+        ----------
+        save_as : str
+            This is the name the file will be saved by
+        """
+
         self.svg_string += '</svg>\n'
         with open(save_as,'w') as file:
             file.write(self.svg_string)
 
     # function to move the cursor to a point without drawing anything
-    def move_to(self,x,y):
+    def move_to(self,point):
         """This function moves the pen to the given point without
            drawing anything in the SVG.
 
         Parameters
         ----------
-        x : int
-            The x co-ordinate to move to
-        y :  int
-            The y co-ordinate to move to
+        point : (int, int)
+            The (x, y) co-ordinates to move to
         """
 
-        self.svg_string += f'<path d="M {x} {y}" />\n'
+        self.svg_string += f'<path d="M {point[0]} {point[1]}" />\n'
 
+    # function to draw an arrow
+    def arrow(self, point, width = 25, length = 100, stroke = "#001122", 
+              fill = "#F9F9F9", stroke_width = 1):
+        """This function draws an arrow in the SVG
 
+        Parameters
+        ----------
+        point : (int, int)
+            The (x,y) co-ordinates to draw the arrow at
+        width : int
+            The width of the arrow
+        length : int
+            The length of the arrow tail
+        stroke_width : int
+            The width of the arrow borders
+        stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color name or code for the border
+        fill : rbg(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color to be filled in the arrow
+        """
+
+        up = width + point[1]
+        forward = length + point[0]
+        arrow_head = up + (int(width * 0.5) if (width % 2 == 0) 
+                           else (width//2 + 1))
+        arrow_mid_x = forward + int(length * 0.2)
+        arrow_mid_y = point[1] + (width//2)
+        arrow_bottom = point[1] - (int(width * 0.5) if (width % 2 == 0)
+                                   else (width//2 - 1))
+
+        self.svg_string += f'<path d="M {point[0]} {point[1]}'\
+                           f' V {up} H {forward} V {arrow_head}'\
+                           f' L {arrow_mid_x} {arrow_mid_y}'\
+                           f' L {forward} {arrow_bottom} V {point[1]}'\
+                           f' H {point[0]}" stroke = "{stroke}"'\
+                           f' fill = "{fill}"'\
+                           f' stroke-width = "{stroke_width}" />'
+        
 # test code
 obj = SVG(400,500)
 
