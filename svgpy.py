@@ -3,6 +3,21 @@
 def rgb(red,green,blue):
     return f"rgb({red},{green},{blue})"
 
+
+# a class to handle points
+class Point:
+    def __init__(self, point):
+        self.x = point[0]
+        self.y = point[1]
+
+    def __repr__(self):
+        return (self.x, self.y)
+
+    def __str__(self):
+        return f'(x = {self.x} , y = {self.y})'
+
+
+
 # class for handling SVG stuff
 class SVG:
     """
@@ -22,7 +37,8 @@ class SVG:
         self.width = width
         self.height = height
         self.svg_string = f'<svg width="{self.width}" height="{self.height}'\
-                           '" xmlns="http://www.w3.org/2000/svg">\n'
+                           '" xmlns="http://www.w3.org/2000/svg" '\
+                           'xmlns:xlink="http://www.w3.org/1999/xlink">\n'
     
     # function to draw a point
     def point(self, point, fill = rgb(0,0,0)):
@@ -277,8 +293,56 @@ class SVG:
                            f' L {forward} {arrow_bottom} V {point[1]}'\
                            f' H {point[0]}" stroke = "{stroke}"'\
                            f' fill = "{fill}"'\
-                           f' stroke-width = "{stroke_width}" />'
+                           f' stroke-width = "{stroke_width}" />\n'
         
+    # function to add text to the svg
+    def text(self, point : Point, text : str, fill = rgb(255, 255, 255),
+             transform = "rotate(0,0,0)"):
+        """This function writes text on to the SVG
+
+        Parameters
+        ----------
+
+        point : Point
+            The (x,y) co-ordinates to write the text from
+        text : str
+            The text to be written on the image
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color for the text
+        transform : rotate(180,180,32)
+            The transformation to be applied 
+        """
+
+        text_string = f'<text x="{point.x}" y="{point.y}" '\
+                      f'fill="{fill}" transform="{transform}">{text}'\
+                      f'</text>\n'
+
+        self.svg_string += text_string
+        return text_string
+
+    # adding text that serves as a link
+    def link_text(self, point: Point, text : str, url : str,
+                  fill = rgb(255, 255, 255)):
+        """This function adds text to the image which acts a link
+
+        Parameters
+        ----------
+
+        point : Point
+            The (x,y) co-ordinate to write the text from
+        text : str
+            The text to be written on the image
+        url : str
+            The link to redirect with the text to
+        fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
+            The color for the text
+        """
+
+        self.svg_string += f'<a xlink:href="{url}" target="_blank">\n'\
+                           f'{self.text(point, text, fill)}'\
+                           f'</a>\n'
+
+
 # test code
 obj = SVG(400,500)
 
@@ -290,5 +354,7 @@ obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
 obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
 
 obj.polygon([(20,30),(150,320),(320,150),(40,50),(10,50)], fill = "crimson")
+obj.text(Point((80,90)),text = "Hi there..!",fill=rgb(110,230,245))
+obj.link_text(Point((90,90)),text ="Url herererwrwerwrw",url = "https://www.github.com/Ajay-Singh-Rana",fill = rgb(45,46,230))
 obj.write()
 
