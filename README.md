@@ -15,8 +15,18 @@ Let's hope this project continues to grow.
   - [x] Line
   - [x] Polyline
   - [x] Polygon
-  - [x] Path
-  - [ ] Text
+  - [ ] Path
+      - [ ] M (move to)
+      - [ ] L (line to)
+      - [ ] H (horizontal line to)
+      - [ ] V (vertical line to)
+      - [ ] C (curve to)
+      - [ ] S (smooth curve to)
+      - [ ] Q (quadratic Bézier curve)
+      - [ ] T (smooth quadratic Bézier curve to)
+      - [ ] A (elliptical Arc)
+      - [ ] Z (close path)
+  - [x] Text
   - [ ] Filters
   - [ ] Stroke
 ### Project Requirements:

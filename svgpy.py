@@ -207,7 +207,7 @@ class SVG:
                            f' stroke="{stroke}" fill="{fill}"'\
                            f' stroke-width="{stroke_width}" />\n'
 
-    # functon to draw a path
+    # function to draw a path
     def path(self, d):
         """Draws a path formed with complex shapes
         
