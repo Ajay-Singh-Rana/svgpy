@@ -5,15 +5,15 @@ def rgb(red,green,blue):
     return f"rgb({red},{green},{blue})"
 
 
-# a funcion to handle hsl colors as a string
+# a function to handle hsl colors as a string
 def hsl(hue, saturation, light):
     return f'hsl({hue}, {saturation}, {light})'
 
 # a class to handle points
 class Point:
-    def __init__(self, point):
-        self.x = point[0]
-        self.y = point[1]
+    def __init__(self, x , y):
+        self.x = x
+        self.y = y
 
     def __repr__(self):
         return (self.x, self.y)
@@ -46,29 +46,29 @@ class SVG:
                            'xmlns:xlink="http://www.w3.org/1999/xlink">\n'
     
     # function to draw a point
-    def point(self, point, fill = rgb(0,0,0)):
+    def point(self, point : Point, fill = rgb(0,0,0)):
         """Draws a point in the SVG image
         
         Parameters
         ----------
-        point : (int,int)
+        point : Point(int,int)
             co-ordinates of the point
         fill : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
 
             fill color of the point
         """
 
-        self.svg_string += f'<rect x="{point[0]}" y="{point[1]}" width = "1"'\
+        self.svg_string += f'<rect x="{point.x}" y="{point.y}" width = "1"'\
                            f' height="1" stroke-width="1" stroke="{fill}" />\n'
   
     # function to draw a rectangle
-    def rect(self, start, size, rx = 0, ry = 0, stroke = rgb(0, 0, 0), 
+    def rect(self, start : Point, size, rx = 0, ry = 0, stroke = rgb(0, 0, 0), 
              fill = "transparent", stroke_width = 1):
         """Draws a rectangle in the SVG image
 
         Parameters
         ----------
-        start : (int, int)
+        start : Point(int, int)
             The x,y co-ordinates of the start/initial point
         size : (int, int)
             The width, height of the rectangle
@@ -86,19 +86,19 @@ class SVG:
             The width of the stroke i.e. border or pen-size
         """
 
-        self.svg_string += f'<rect x="{start[0]}" y="{start[1]}"'\
+        self.svg_string += f'<rect x="{start.x}" y="{start.y}"'\
                            f' width="{size[0]}" height = "{size[1]}"'\
                            f' rx="{rx}" ry="{ry}" stroke="{stroke}"' \
                            f' fill="{fill}" stroke-width="{stroke_width}" />\n'
     
     # function to draw a circle
-    def circle(self, center, radius, stroke = rgb(0,0,0), 
+    def circle(self, center : Point, radius, stroke = rgb(0,0,0), 
                fill = "transparent", stroke_width = 1):
         """Draws a circle in the SVG image
 
         Parameters
         ----------
-        center : (int, int)
+        center : Point(int, int)
             The x,y co-ordinates for the center of the circle
         radius : int
             The radius of the circle
@@ -110,18 +110,18 @@ class SVG:
             The width of the stroke i.e. border or pen-size
         """
 
-        self.svg_string += f'<circle cx="{center[0]}" cy="{center[1]}"'\
+        self.svg_string += f'<circle cx="{center.x}" cy="{center.y}"'\
                            f' r="{radius}" stroke="{stroke}"'\
                            f' fill="{fill}" stroke-width="{stroke_width}" />\n'
 
     # function to draw an ellipse
-    def ellipse(self, center, radii, stroke = rgb(0,0,0),
+    def ellipse(self, center : Point, radii, stroke = rgb(0,0,0),
                 fill = "transparent", stroke_width = 1):
         """Draws an ellipse in the SVG image
 
         Parameters
         ----------
-        center : (int,int)
+        center : Point(int,int)
             The x,y co-ordinates for the center of the ellipse
         radii : (int,int)
             The radiuses of the ellipse along x-axis,y-axis
@@ -133,20 +133,20 @@ class SVG:
             The width of the stroke i.e. border or pen-size
         """
 
-        self.svg_string += f'<ellipse cx="{center[0]}" cy="{center[1]}"'\
+        self.svg_string += f'<ellipse cx="{center.x}" cy="{center.y}"'\
                            f' rx="{radii[0]}" ry="{radii[1]}"'\
                            f' stroke="{stroke}"'\
                            f' fill="{fill}" stroke-width="{stroke_width}" /> \n'
 
     # function to draw a line
-    def line(self, start, end, stroke = rgb(0,0,0), stroke_width = 1):
+    def line(self, start : Point, end : Point, stroke = rgb(0,0,0), stroke_width = 1):
         """Draws a line in the SVG image
 
         Parameters
         ----------
-        start : (int,int)
+        start : Point(int,int)
             The co-ordinates x,y for the initial point
-        end : (int,int)
+        end : Point(int,int)
             The co-ordinates x,y for the end point
         stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the line color
@@ -154,8 +154,8 @@ class SVG:
             The width of the line or pen-size
         """
         
-        self.svg_string += f'<line x1="{start[0]}" y1="{start[1]}"'\
-                           f' x2="{end[0]}" y2="{end[1]}" stroke="{stroke}"'\
+        self.svg_string += f'<line x1="{start.x}" y1="{start.y}"'\
+                           f' x2="{end.x}" y2="{end.y}" stroke="{stroke}"'\
                            f' stroke-width="{stroke_width}" />\n'
 
     # function to draw a polyling
@@ -165,7 +165,7 @@ class SVG:
 
         Parameters
         ----------
-        points : [(int,int),(int,int),(int,int),(int,int),...]
+        points : [Point(int,int), Point(int,int), Point(int,int), ...]
             List of tuples of co-ordinates (x,y)
         stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the line color
@@ -176,8 +176,8 @@ class SVG:
         """
 
         points_string = ""
-        for i in points:
-            points_string += f" {i[0]}, {i[1]}"
+        for point in points:
+            points_string += f" {point.x}, {point.y}"
         points_string = points_string.strip()
         self.svg_string += f'<polyline points="{points_string}"'\
                            f' stroke="{stroke}" stroke-width='\
@@ -190,7 +190,7 @@ class SVG:
         
         Parameters
         ----------
-        points : [(int,int),(int,int),(int,int),...]
+        points : [Point(int,int), Point(int,int), Point(int,int),...]
             List of tuples of co-ordinates (x,y)
         stroke : rgb(red, green, blue) / #rrggbb / hsl(hue, saturation, light)
             Sets the border color for the shape
@@ -201,8 +201,8 @@ class SVG:
         """
         
         points_string = ""
-        for i in points:
-            points_string += f' {i[0]}, {i[1]}'
+        for point in points:
+            points_string += f' {point.x}, {point.y}'
         self.svg_string += f'<polygon points="{points_string}"'\
                            f' stroke="{stroke}" fill="{fill}"'\
                            f' stroke-width="{stroke_width}" />\n'
@@ -250,26 +250,26 @@ class SVG:
             file.write(self.svg_string)
 
     # function to move the cursor to a point without drawing anything
-    def move_to(self,point):
+    def move_to(self,point : Point):
         """This function moves the pen to the given point without
            drawing anything in the SVG.
 
         Parameters
         ----------
-        point : (int, int)
+        point : Point(int, int)
             The (x, y) co-ordinates to move to
         """
 
-        self.svg_string += f'<path d="M {point[0]} {point[1]}" />\n'
+        self.svg_string += f'<path d="M {point.x} {point.y}" />\n'
 
     # function to draw an arrow
-    def arrow(self, point, width = 25, length = 100, stroke = "#001122", 
+    def arrow(self, point : Point, width = 25, length = 100, stroke = "#001122", 
               fill = "#F9F9F9", stroke_width = 1):
         """This function draws an arrow in the SVG
 
         Parameters
         ----------
-        point : (int, int)
+        point : Point(int, int)
             The (x,y) co-ordinates to draw the arrow at
         width : int
             The width of the arrow
@@ -283,20 +283,20 @@ class SVG:
             The color to be filled in the arrow
         """
 
-        up = width + point[1]
-        forward = length + point[0]
+        up = width + point.y
+        forward = length + point.x
         arrow_head = up + (int(width * 0.5) if (width % 2 == 0) 
                            else (width//2 + 1))
         arrow_mid_x = forward + int(length * 0.2)
-        arrow_mid_y = point[1] + (width//2)
-        arrow_bottom = point[1] - (int(width * 0.5) if (width % 2 == 0)
+        arrow_mid_y = point.y + (width//2)
+        arrow_bottom = point.y - (int(width * 0.5) if (width % 2 == 0)
                                    else (width//2 - 1))
 
-        self.svg_string += f'<path d="M {point[0]} {point[1]}'\
+        self.svg_string += f'<path d="M {point.x} {point.y}'\
                            f' V {up} H {forward} V {arrow_head}'\
                            f' L {arrow_mid_x} {arrow_mid_y}'\
-                           f' L {forward} {arrow_bottom} V {point[1]}'\
-                           f' H {point[0]}" stroke = "{stroke}"'\
+                           f' L {forward} {arrow_bottom} V {point.y}'\
+                           f' H {point.x}" stroke = "{stroke}"'\
                            f' fill = "{fill}"'\
                            f' stroke-width = "{stroke_width}" />\n'
         
@@ -308,7 +308,7 @@ class SVG:
         Parameters
         ----------
 
-        point : Point
+        point : Point(int, int)
             The (x,y) co-ordinates to write the text from
         text : str
             The text to be written on the image
@@ -333,7 +333,7 @@ class SVG:
         Parameters
         ----------
 
-        point : Point
+        point : Point(int, int)
             The (x,y) co-ordinate to write the text from
         text : str
             The text to be written on the image
@@ -359,7 +359,7 @@ obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
 obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
 
 obj.polygon([(20,30),(150,320),(320,150),(40,50),(10,50)], fill = "crimson")
-obj.text(Point((80,90)),text = "Hi there..!",fill=rgb(110,230,245))
-obj.link_text(Point((90,90)),text ="Url herererwrwerwrw",url = "https://www.github.com/Ajay-Singh-Rana",fill = rgb(45,46,230))
+obj.text(Point(0,90),text = "Hi there..!",fill=rgb(110,230,245))
+obj.link_text(Point(90,90),text ="Url herererwrwerwrw",url = "https://www.github.com/Ajay-Singh-Rana",fill = rgb(45,46,230))
 obj.write()
 
