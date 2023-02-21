@@ -16,10 +16,10 @@ Let's hope this project continues to grow.
   - [x] Polyline
   - [x] Polygon
   - [ ] Path
-      - [ ] M (move to)
-      - [ ] L (line to)
-      - [ ] H (horizontal line to)
-      - [ ] V (vertical line to)
+      - [x] M (move to)
+      - [x] L (line to)
+      - [x] H (horizontal line to)
+      - [x] V (vertical line to)
       - [ ] C (curve to)
       - [ ] S (smooth curve to)
       - [ ] Q (quadratic Bézier curve)

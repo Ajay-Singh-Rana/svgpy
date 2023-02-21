@@ -260,7 +260,104 @@ class SVG:
             The (x, y) co-ordinates to move to
         """
 
-        self.svg_string += f'<path d="M {point.x} {point.y}" />\n'
+        self.svg_string += f'<path d="M {point.x}, {point.y}" />\n'
+
+    # a function to move the current point by shifting
+    def move_by(self, point : Point):
+        """This function shifts the current point
+        by shifting the last known position by point.x along x-axis
+        and by point.y along the y-axis.
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The (x, y) amount to be shifted by
+        """
+
+        self.svg_string += f'<path d="m {point.x}, {point.y}" />\n'
+    
+    # a function to draw a line from the current point to the given point
+    def line_to(self, point : Point):
+        """ This function draws a line from the current position to 
+        the given point
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The (x, y) co-ordinates of the end point 
+        """
+
+        self.svg_string += f'<path d="L {point.x}, {point.y}" />\n'
+    
+    # a function to draw a line by shifting the current position
+    def line_by(self, point : Point):
+        """This function draws a line from the current point to the end
+        point, which is the current point shifted by point.x and point.y 
+        amount on x-axis and y-axis respectively.
+        
+        Parameters
+        ----------
+        point : Point(int, int)
+            The (x, y) co-ordinates to be shifted by
+        """
+
+        self.svg_string += f'<path d="l {point.x}, {point.y}" />\n'
+    
+    # function to draw a horizontal line from current point to the end point
+    def hline_to(self, x : int):
+        """Draws a horizontal line from the current point to the end point
+        which is specified by the x parameter and the current point's y 
+        co-ordinate.
+
+        Parameters
+        ----------
+        x : int
+            The x co-ordinate of the end point
+        """
+        
+        self.svg_string += f'<path d="H {x}" />\n'
+    
+    # function to draw a horizontal line from current point by shifting
+    def hline_by(self, x : int):
+        """Draws a horizontal line from the current point to the end point
+        which is specified by the current point shifted by x parameter along
+        the x-axis and the current point's y co-ordinate.
+
+        Parameters
+        ----------
+        x : int
+            The amount by which to shift the x co-ordinate
+        """
+        
+        self.svg_string += f'<path d="h {x}" />\n'
+
+    # function to draw a vertical line from current point to the end point
+    def vline_to(self, y : int):
+        """Draws a vertical line from the current point to the end point
+        which is specified by the y parameter and the current point's x
+        co-ordinate.
+
+        Parameters
+        ----------
+        y : int
+            The y co-ordinate of the end point
+        """
+        
+        self.svg_string += f'<path d="H {y}" />\n'
+    
+    # function to draw a vertical line from current point by shifting
+    def vline_by(self, y : int):
+        """Draws a horizontal line from the current point to the end point
+        which is specified by the current point shifted by y parameter along
+        the y-axis and the current point's x co-ordinate.
+
+        Parameters
+        ----------
+        y : int
+            The amount by which to shift the x co-ordinate
+        """
+        
+        self.svg_string += f'<path d="h {y}" />\n'
 
     # function to draw an arrow
     def arrow(self, point : Point, width = 25, length = 100, stroke = "#001122", 
