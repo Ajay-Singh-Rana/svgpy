@@ -1,8 +1,13 @@
 # h3avren
 
+# a function to handle rgb colors as a string
 def rgb(red,green,blue):
     return f"rgb({red},{green},{blue})"
 
+
+# a funcion to handle hsl colors as a string
+def hsl(hue, saturation, light):
+    return f'hsl({hue}, {saturation}, {light})'
 
 # a class to handle points
 class Point:
