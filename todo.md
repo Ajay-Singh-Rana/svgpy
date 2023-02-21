@@ -8,9 +8,17 @@
    - [x] Line
    - [x] Polyline
    - [x] Polygon
-   - [x] Path
+   - [ ] Path
    - [x] Move To
-   - [ ] Text
+   - [x] Text
+   - [ ]  C (curve to)
+   - [ ]  S (smooth curve to)
+   - [ ]  Q (quadratic Bézier curve)
+   - [ ]  T (smooth quadratic Bézier curve to)
+   - [ ]  A (elliptical Arc)
+   - [ ]  Z (close path)
  
 ##### Additional Shapes
    - [x] Arrow
+   - [ ] Discussion Box
+   - [ ] Scaling shapes (proposed) 
