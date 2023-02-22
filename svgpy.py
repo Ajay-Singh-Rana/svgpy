@@ -359,6 +359,92 @@ class SVG:
         
         self.svg_string += f'<path d="h {y}" />\n'
 
+    # a function to draw cubic Bezier Curve
+    def bezier(self, point : Point, control_points : list):
+        """This function draws a cubic Bezier curve from the current
+        point to the end point specified by point. The start control
+        point is the first point in the control_points list and the 
+        end control point is the second point in the list.
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point to draw the Bezier curve to
+        control_points : list(Point, Point)
+            The set of start and end control points
+        """
+
+        self.svg_string += f'<path d="C {point.x}, {point.y} '\
+                           f'{control_points[0].x}, {control_points[0].y} '\
+                           f'{control_points[1].x}, '\
+                           f'{control_points[1].y}" />\n'
+    
+    # a function to draw a Bezier curve by shifting
+    def shift_bezier(self, point: Point, control_points : list):
+        """This function draws a cubic Bezier curve from the current
+        point to the end point, which is the current point shifted by point.x
+        along x-axis and point.y along y-axis. The start control
+        point is the current point shifted by first point in the control_points
+        list and the end control point is the current point shifted by
+        the second point in the list.
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point by which to shift the current point
+        control_points : list(Point, Point)
+            The set of start and end control point shifts
+        """
+
+        self.svg_string += f'<path d="c {point.x}, {point.y} '\
+                           f'{control_points[0].x}, {control_points[0].y} '\
+                           f'{control_points[1].x}, '\
+                           f'{control_points[1].y}" />\n'
+    
+    # a function to draw smooth cubic Bezier Curve
+    def smooth_bezier(self, point : Point, control_point : Point):
+        """This function draws a smooth cubic Bezier curve from the current
+        point to the end point specified by point. The end control point is
+        specified by control_point. The start control point is the reflection
+        of the end control point of the previous curve command about the
+        current point. If the previous command wasn't a cubic Bézier curve, 
+        the start control point is the same as the curve starting point
+        (current point).
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point to draw the Bezier curve to
+        control_points : Point(int, int)
+            The end control point
+        """
+
+        self.svg_string += f'<path d="S {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y}" />\n'
+    
+    # a function to draw a Bezier curve by shifting
+    def shift_smooth_bezier(self, point: Point, control_point : Point):
+        """This function draws a smooth cubic Bezier curve from the current
+        point to the end point, which is the current point shifted by point.x
+        along x-axis and point.y along y-axis. The end control point is
+        specified by the current point shifted by control_point.x along x-axis
+        and control_point.y along y-axis. The start control point is the
+        reflection of the end control point of the previous curve command about
+        the current point. If the previous command wasn't a cubic Bézier curve, 
+        the start control point is the same as the curve starting point
+        (current point).
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point by which to shift the current point
+        control_points : Point(int, int)
+            The end control point shift
+        """
+
+        self.svg_string += f'<path d="s {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y}" />\n'
+
     # function to draw an arrow
     def arrow(self, point : Point, width = 25, length = 100, stroke = "#001122", 
               fill = "#F9F9F9", stroke_width = 1):
