@@ -11,8 +11,8 @@
    - [ ] Path
    - [x] Move To
    - [x] Text
-   - [ ]  C (curve to)
-   - [ ]  S (smooth curve to)
+   - [x]  C (curve to)
+   - [x]  S (smooth curve to)
    - [ ]  Q (quadratic Bézier curve)
    - [ ]  T (smooth quadratic Bézier curve to)
    - [ ]  A (elliptical Arc)
