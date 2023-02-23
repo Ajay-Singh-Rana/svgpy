@@ -208,7 +208,7 @@ class SVG:
                            f' stroke-width="{stroke_width}" />\n'
 
     # function to draw a path
-    def path(self, d):
+    def path(self, d : str, stroke = "Black", fill = "Red", stroke_width = "2px"):
         """Draws a path formed with complex shapes
         
         Parameters
@@ -233,7 +233,9 @@ class SVG:
         stroke_width : int
             Sets the width of the border
         """
-        pass
+        
+        self.svg_string += f'<path d="{d}" stroke="{stroke}" '\
+                           f'stroke-width="{stroke_width}" fill="{fill}"/>\n'
 
     # function to finally write the svg file
     def write(self,save_as='test.svg'):
@@ -249,10 +251,26 @@ class SVG:
         with open(save_as,'w') as file:
             file.write(self.svg_string)
 
+    # start a path
+    def start_path(self, point : Point = None):
+        """This function is used to start a new path in the Image.
+        
+        Parameters
+        ----------
+        point : Point
+            The point to start from, None by default.
+        """
+
+        if(point):
+            self.svg_string += f'<path d="M {point.x}, {point.y} '
+        else:
+            self.svg_string += '<path d="'
+
     # function to move the cursor to a point without drawing anything
     def move_to(self,point : Point):
-        """This function moves the pen to the given point without
-           drawing anything in the SVG.
+        """This function is path specific (Will not work without starting a path).
+        This function moves the pen to the
+        given point without drawing anything in the path.
 
         Parameters
         ----------
@@ -260,11 +278,12 @@ class SVG:
             The (x, y) co-ordinates to move to
         """
 
-        self.svg_string += f'<path d="M {point.x}, {point.y}" />\n'
+        self.svg_string += f'M {point.x}, {point.y} '
 
     # a function to move the current point by shifting
     def move_by(self, point : Point):
-        """This function shifts the current point
+        """This function is path specific (Will not work without starting a path). 
+        This function shifts the current point
         by shifting the last known position by point.x along x-axis
         and by point.y along the y-axis.
 
@@ -274,12 +293,12 @@ class SVG:
             The (x, y) amount to be shifted by
         """
 
-        self.svg_string += f'<path d="m {point.x}, {point.y}" />\n'
+        self.svg_string += f'm {point.x}, {point.y} '
     
     # a function to draw a line from the current point to the given point
     def line_to(self, point : Point):
-        """ This function draws a line from the current position to 
-        the given point
+        """ This function is path specific (Will not work without starting a path).
+        This function draws a line from the current position to the given point.
 
         Parameters
         ----------
@@ -287,12 +306,14 @@ class SVG:
             The (x, y) co-ordinates of the end point 
         """
 
-        self.svg_string += f'<path d="L {point.x}, {point.y}" />\n'
+        self.svg_string += f'L {point.x}, {point.y} '
     
     # a function to draw a line by shifting the current position
     def line_by(self, point : Point):
-        """This function draws a line from the current point to the end
-        point, which is the current point shifted by point.x and point.y 
+        """This function is path specific (Will not work without starting a path).
+        This function draws a line from the
+        current point to the end point, which is the current point 
+        shifted by point.x and point.y 
         amount on x-axis and y-axis respectively.
         
         Parameters
@@ -301,11 +322,12 @@ class SVG:
             The (x, y) co-ordinates to be shifted by
         """
 
-        self.svg_string += f'<path d="l {point.x}, {point.y}" />\n'
+        self.svg_string += f'l {point.x}, {point.y} '
     
     # function to draw a horizontal line from current point to the end point
     def hline_to(self, x : int):
-        """Draws a horizontal line from the current point to the end point
+        """This function is path specific (Will not work without starting a path).
+        It draws a horizontal line from the current point to the end point
         which is specified by the x parameter and the current point's y 
         co-ordinate.
 
@@ -315,11 +337,12 @@ class SVG:
             The x co-ordinate of the end point
         """
         
-        self.svg_string += f'<path d="H {x}" />\n'
+        self.svg_string += f'H {x} '
     
     # function to draw a horizontal line from current point by shifting
     def hline_by(self, x : int):
-        """Draws a horizontal line from the current point to the end point
+        """This function is path specific (Will not work without starting a path).
+        It draws a horizontal line from the current point to the end point
         which is specified by the current point shifted by x parameter along
         the x-axis and the current point's y co-ordinate.
 
@@ -329,11 +352,12 @@ class SVG:
             The amount by which to shift the x co-ordinate
         """
         
-        self.svg_string += f'<path d="h {x}" />\n'
+        self.svg_string += f'h {x} '
 
     # function to draw a vertical line from current point to the end point
     def vline_to(self, y : int):
-        """Draws a vertical line from the current point to the end point
+        """This function is path specific (Will not work without starting a path) (Will not work without starting a path).
+        It draws a vertical line from the current point to the end point
         which is specified by the y parameter and the current point's x
         co-ordinate.
 
@@ -343,11 +367,12 @@ class SVG:
             The y co-ordinate of the end point
         """
         
-        self.svg_string += f'<path d="H {y}" />\n'
+        self.svg_string += f'V {y} '
     
     # function to draw a vertical line from current point by shifting
     def vline_by(self, y : int):
-        """Draws a horizontal line from the current point to the end point
+        """This is a path specific function (Will not work without starting a path).
+        It draws a horizontal line from the current point to the end point
         which is specified by the current point shifted by y parameter along
         the y-axis and the current point's x co-ordinate.
 
@@ -357,11 +382,12 @@ class SVG:
             The amount by which to shift the x co-ordinate
         """
         
-        self.svg_string += f'<path d="h {y}" />\n'
+        self.svg_string += f'v {y} '
 
     # a function to draw cubic Bezier Curve
     def bezier(self, point : Point, control_points : list):
-        """This function draws a cubic Bezier curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a cubic Bezier curve from the current
         point to the end point specified by point. The start control
         point is the first point in the control_points list and the 
         end control point is the second point in the list.
@@ -374,14 +400,15 @@ class SVG:
             The set of start and end control points
         """
 
-        self.svg_string += f'<path d="C {point.x}, {point.y} '\
+        self.svg_string += f'C {point.x}, {point.y} '\
                            f'{control_points[0].x}, {control_points[0].y} '\
                            f'{control_points[1].x}, '\
-                           f'{control_points[1].y}" />\n'
+                           f'{control_points[1].y} '
     
     # a function to draw a Bezier curve by shifting
     def shift_bezier(self, point: Point, control_points : list):
-        """This function draws a cubic Bezier curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a cubic Bezier curve from the current
         point to the end point, which is the current point shifted by point.x
         along x-axis and point.y along y-axis. The start control
         point is the current point shifted by first point in the control_points
@@ -396,14 +423,15 @@ class SVG:
             The set of start and end control point shifts
         """
 
-        self.svg_string += f'<path d="c {point.x}, {point.y} '\
+        self.svg_string += f'c {point.x}, {point.y} '\
                            f'{control_points[0].x}, {control_points[0].y} '\
                            f'{control_points[1].x}, '\
-                           f'{control_points[1].y}" />\n'
+                           f'{control_points[1].y} '
     
     # a function to draw smooth cubic Bezier Curve
     def smooth_bezier(self, point : Point, control_point : Point):
-        """This function draws a smooth cubic Bezier curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a smooth cubic Bezier curve from the current
         point to the end point specified by point. The end control point is
         specified by control_point. The start control point is the reflection
         of the end control point of the previous curve command about the
@@ -419,12 +447,13 @@ class SVG:
             The end control point
         """
 
-        self.svg_string += f'<path d="S {point.x}, {point.y} '\
-                           f'{control_point.x}, {control_point.y}" />\n'
+        self.svg_string += f'S {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y} '
     
     # a function to draw a smooth cubic Bezier curve by shifting
     def shift_smooth_bezier(self, point: Point, control_point : Point):
-        """This function draws a smooth cubic Bezier curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a smooth cubic Bezier curve from the current
         point to the end point, which is the current point shifted by point.x
         along x-axis and point.y along y-axis. The end control point is
         specified by the current point shifted by control_point.x along x-axis
@@ -442,12 +471,13 @@ class SVG:
             The end control point shift
         """
 
-        self.svg_string += f'<path d="s {point.x}, {point.y} '\
-                           f'{control_point.x}, {control_point.y}" />\n'
+        self.svg_string += f's {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y} '
 
     # a function to draw Quadratic Bezier Curve
     def qudratic_bezier(self, point : Point, control_point : Point):
-        """This function draws a Quadratic Bezier Curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a Quadratic Bezier Curve from the current
         point to the end point specified by point and the control point being
         specified by control_point.
 
@@ -459,12 +489,13 @@ class SVG:
             The control point for the quadratic curve
         """
 
-        self.svg_string += f'<path d="Q {point.x}, {point.y} '\
-                           f'{control_point.x}, {control_point.y}" />\n'
+        self.svg_string += f'Q {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y} '
 
     # a function to draw a Quadratic Bezier Curve by shifting
     def shift_quadratic_bezier(self, point : Point, control_point : Point):
-        """This function draws a quadratic Bezier curve from the current
+        """This function is path specific (Will not work without starting a path).
+        This function draws a quadratic Bezier curve from the current
         point to the end point, which is the current point shifted by point.x
         along x-axis and point.y along y-axis. The control point is
         specified by the current point shifted by control_point.x along x-axis
@@ -478,12 +509,13 @@ class SVG:
             The control point shift
         """
 
-        self.svg_string += f'<path d="q {point.x}, {point.y} '\
-                           f'{control_point.x}, {control_point.y}" />\n'
+        self.svg_string += f'q {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y} '
     
     # a function to draw smooth Quadratic Bezier Curve
     def smooth_quadratic_bezier(self,point : Point):
-        """Draws a smooth quadratic Bézier curve from the 
+        """This function is path specific (Will not work without starting a path).
+        Draws a smooth quadratic Bézier curve from the 
         current point to the end point specified by point. 
         The control point is the reflection of the control 
         point of the previous curve command about the current
@@ -496,11 +528,12 @@ class SVG:
             The point to specify the end point
         """
 
-        self.svg_string += f'<path d="T {point.x}, {point.y}" />\n'
+        self.svg_string += f'T {point.x}, {point.y} '
     
     # a function to draw smooth Quadratic Bezier Curve by shifting
     def smooth_quadratic_bezier(self,point : Point):
-        """Draws a smooth quadratic Bézier curve from the 
+        """This function is path specific (Will not work without starting a path).
+        Draws a smooth quadratic Bézier curve from the 
         current point to the end point which is specified by the
         current point shifted by point.x along x-axis and point.y along
         y-axis. 
@@ -515,7 +548,24 @@ class SVG:
             The point to specify the end point
         """
 
-        self.svg_string += f'<path d="t {point.x}, {point.y}" />\n'
+        self.svg_string += f't {point.x}, {point.y} '
+
+    # a function to close the current subpath
+    def end_path(self, close_path = False):
+        """This function is path specific (Will not work without starting a path).
+        This function is used to close the current subpath by 
+        connecting the last point of the path with its initial point.
+
+        Parameters
+        ----------
+        close_path : Bool, default = False
+            Whether or not to close the path
+        """
+
+        if(close_path):
+            self.svg_string += 'z" />\n'
+        else:
+            self.svg_string += '" />\n'
 
     # function to draw an arrow
     def arrow(self, point : Point, width = 25, length = 100, stroke = "#001122", 
@@ -606,15 +656,21 @@ class SVG:
 # test code
 obj = SVG(400,500)
 
-obj.point((50,50))
-obj.rect((10,30),(100,200), fill="red", stroke_width = 10,stroke = rgb(28,29,150))
-obj.circle(center = (40,50), fill = rgb(123,224,200),radius = 150,stroke_width=1)
-obj.ellipse(center =(50,60), radii = (40,60), stroke_width = 8, fill = 'crimson')
-obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
-obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
+# obj.point((50,50))
+# obj.rect((10,30),(100,200), fill="red", stroke_width = 10,stroke = rgb(28,29,150))
+# obj.circle(center = (40,50), fill = rgb(123,224,200),radius = 150,stroke_width=1)
+# obj.ellipse(center =(50,60), radii = (40,60), stroke_width = 8, fill = 'crimson')
+# obj.line((80,90),(200,400),stroke=rgb(19,18,159),stroke_width = 10)
+# obj.polyline([(12,13),(140,150),(170,90),(90,17)],fill = "#2a8bdc",stroke="crimson")
 
-obj.polygon([(20,30),(150,320),(320,150),(40,50),(10,50)], fill = "crimson")
-obj.text(Point(0,90),text = "Hi there..!",fill=rgb(110,230,245))
-obj.link_text(Point(90,90),text ="Url herererwrwerwrw",url = "https://www.github.com/Ajay-Singh-Rana",fill = rgb(45,46,230))
+# obj.polygon([(20,30),(150,320),(320,150),(40,50),(10,50)], fill = "crimson")
+# obj.text(Point(0,90),text = "Hi there..!",fill=rgb(110,230,245))
+# obj.link_text(Point(90,90),text ="Url herererwrwerwrw",url = "https://www.github.com/Ajay-Singh-Rana",fill = rgb(45,46,230))
+obj.start_path(Point(45,45))
+# obj.move_to(Point(10,10))
+obj.line_to(Point(25,25))
+obj.line_to(Point(280,396))
+obj.end_path(True)
+# obj.path(d = "M 30,30 L 25, 25 L 280, 396 Z")
 obj.write()
 
