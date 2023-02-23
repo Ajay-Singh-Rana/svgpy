@@ -422,7 +422,7 @@ class SVG:
         self.svg_string += f'<path d="S {point.x}, {point.y} '\
                            f'{control_point.x}, {control_point.y}" />\n'
     
-    # a function to draw a Bezier curve by shifting
+    # a function to draw a smooth cubic Bezier curve by shifting
     def shift_smooth_bezier(self, point: Point, control_point : Point):
         """This function draws a smooth cubic Bezier curve from the current
         point to the end point, which is the current point shifted by point.x
@@ -444,6 +444,78 @@ class SVG:
 
         self.svg_string += f'<path d="s {point.x}, {point.y} '\
                            f'{control_point.x}, {control_point.y}" />\n'
+
+    # a function to draw Quadratic Bezier Curve
+    def qudratic_bezier(self, point : Point, control_point : Point):
+        """This function draws a Quadratic Bezier Curve from the current
+        point to the end point specified by point and the control point being
+        specified by control_point.
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point upto which the quadratic curve is to be drawn
+        control_point : Point(int, int)
+            The control point for the quadratic curve
+        """
+
+        self.svg_string += f'<path d="Q {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y}" />\n'
+
+    # a function to draw a Quadratic Bezier Curve by shifting
+    def shift_quadratic_bezier(self, point : Point, control_point : Point):
+        """This function draws a quadratic Bezier curve from the current
+        point to the end point, which is the current point shifted by point.x
+        along x-axis and point.y along y-axis. The control point is
+        specified by the current point shifted by control_point.x along x-axis
+        and control_point.y along y-axis.
+
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point by which to shift the current point
+        control_points : Point(int, int)
+            The control point shift
+        """
+
+        self.svg_string += f'<path d="q {point.x}, {point.y} '\
+                           f'{control_point.x}, {control_point.y}" />\n'
+    
+    # a function to draw smooth Quadratic Bezier Curve
+    def smooth_quadratic_bezier(self,point : Point):
+        """Draws a smooth quadratic Bézier curve from the 
+        current point to the end point specified by point. 
+        The control point is the reflection of the control 
+        point of the previous curve command about the current
+        point. If the previous command wasn't a quadratic Bézier
+        curve, the control point is the same as the current point. 
+        
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point to specify the end point
+        """
+
+        self.svg_string += f'<path d="T {point.x}, {point.y}" />\n'
+    
+    # a function to draw smooth Quadratic Bezier Curve by shifting
+    def smooth_quadratic_bezier(self,point : Point):
+        """Draws a smooth quadratic Bézier curve from the 
+        current point to the end point which is specified by the
+        current point shifted by point.x along x-axis and point.y along
+        y-axis. 
+        The control point is the reflection of the control 
+        point of the previous curve command about the current
+        point. If the previous command wasn't a quadratic Bézier
+        curve, the control point is the same as the current point. 
+        
+        Parameters
+        ----------
+        point : Point(int, int)
+            The point to specify the end point
+        """
+
+        self.svg_string += f'<path d="t {point.x}, {point.y}" />\n'
 
     # function to draw an arrow
     def arrow(self, point : Point, width = 25, length = 100, stroke = "#001122", 
