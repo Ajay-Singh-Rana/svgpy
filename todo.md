@@ -15,7 +15,7 @@
    - [x]  S (smooth curve to)
    - [x]  Q (quadratic Bézier curve)
    - [x]  T (smooth quadratic Bézier curve to)
-   - [ ]  A (elliptical Arc)
+   - [x]  A (elliptical Arc)
    - [x]  Z (close path)
  
 ##### Additional Shapes
