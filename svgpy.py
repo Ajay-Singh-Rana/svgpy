@@ -550,6 +550,33 @@ class SVG:
 
         self.svg_string += f't {point.x}, {point.y} '
 
+    # a function to draw an elliptical arc curve
+    def arc(self, point : Point, radii, angle, flags):
+        """This function draws an arc curve from the current point to the 
+        coordinates specified by point. The center of the ellipse used to 
+        draw the arc is determined automatically based on the other
+        parameters. radii specifies x-radius and y-radius, angle specifies
+        rotation and flags specify between large arc or sweep arc:
+            1. large-arc-flag allows to chose one of the large arc (1)
+               or small arc (0).
+            2. sweep-flag allows to chose one of the clockwise turning arc
+               (1) or counterclockwise turning arc (0)
+        
+        Parameters
+        ----------
+        point : Point(int, int)
+            specifies the point upto which curve is to be drawn
+        radii : (int, int)
+            specifies x-radius and y-radius
+        angle : int
+            Rotation in degrees of the curve with respect to x-axis
+        flags : (int, int)
+            To choose between large or small and clockwise or anti-clockwise
+        """
+
+        self.svg_string += f'A {radii[0]} {radii[1]} {angle} '\
+                           f'{flags[0]} {flags[1]} {point.x}, {point.y} '
+        
     # a function to close the current subpath
     def end_path(self, close_path = False):
         """This function is path specific (Will not work without starting a path).
